@@ -1,0 +1,120 @@
+.youtube-download {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #eee;
+  padding: 2rem;
+}
+
+.youtube-download-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.youtube-back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.youtube-back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.youtube-download-content {
+  max-width: 500px;
+}
+
+.youtube-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.youtube-form input {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.youtube-download-btn {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.youtube-download-btn:hover:not(:disabled) {
+  background: #f40612;
+}
+
+.youtube-download-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.youtube-progress-wrap {
+  margin-top: 1.5rem;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.youtube-progress-bar {
+  height: 100%;
+  background: #e50914;
+  transition: width 0.3s;
+}
+
+.youtube-error {
+  color: #ff6b6b;
+  margin-top: 1rem;
+}
+
+.youtube-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.youtube-success {
+  color: #51cf66;
+  margin-bottom: 0.5rem;
+}
+
+.youtube-json-btn {
+  padding: 0.5rem 1rem;
+  background: #228be6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.youtube-json-btn:hover {
+  background: #1c7ed6;
+}
+
+.youtube-filename {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #adb5bd;
+}

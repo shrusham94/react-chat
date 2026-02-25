@@ -56,6 +56,22 @@
   border-color: rgba(255, 255, 255, 0.25);
 }
 
+.youtube-tab-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  background: rgba(229, 9, 20, 0.3);
+  border: 1px solid rgba(229, 9, 20, 0.5);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.youtube-tab-btn:hover {
+  background: rgba(229, 9, 20, 0.45);
+}
+
 /* Session list */
 
 .sidebar-sessions {

@@ -1,12 +1,12 @@
 # Chat App
 
-A React chatbot with Gemini AI, user auth, MongoDB persistence, and client-side data analysis. Glassmorphism UI with streaming responses, CSV upload, code execution, and interactive charts.
+A React chatbot with OpenAI, user auth, MongoDB persistence, and client-side data analysis. Glassmorphism UI with streaming responses, CSV upload, and interactive charts.
 
 ## How It Works
 
 - **Frontend (React)** – Login/create account, chat UI with streaming, drag-and-drop CSV/images, Recharts bar charts
 - **Backend (Express)** – REST API for users and sessions, connects to MongoDB
-- **AI (Gemini)** – Streaming chat, Google Search grounding, Python code execution, and function calling for client-side tools
+- **AI (OpenAI)** – Streaming chat, function calling for client-side tools (gpt-4o-mini).
 - **Storage (MongoDB)** – Users and chat sessions stored in `chatapp` database
 
 ## API Keys & Environment Variables
@@ -15,8 +15,9 @@ Create a `.env` file in the project root with:
 
 | Variable | Required | Where used | Description |
 |----------|----------|------------|-------------|
-| `REACT_APP_GEMINI_API_KEY` | Yes | Frontend (baked in at build) | Google Gemini API key. Get one at [Google AI Studio](https://aistudio.google.com/apikey). |
+| `REACT_APP_OPENAI_API_KEY` | Yes | Frontend (baked in at build) | OpenAI API key. Get one at [platform.openai.com](https://platform.openai.com/api-keys). |
 | `REACT_APP_MONGODB_URI` | Yes | Backend | MongoDB Atlas connection string. Format: `mongodb+srv://USER:PASSWORD@CLUSTER.mongodb.net/` |
+| `YOUTUBE_API_KEY` | Optional | Backend | YouTube Data API v3 key for richer metadata (likes, comments, transcripts). If not set, the app uses Invidious (no key required). |
 | `REACT_APP_API_URL` | Production only | Frontend (baked in at build) | Full URL of the backend, e.g. `https://your-backend.onrender.com`. Leave blank for local dev (proxy handles it). |
 
 The backend also accepts `MONGODB_URI` or `REACT_APP_MONGO_URI` as the MongoDB connection string if you prefer those names.
@@ -24,8 +25,9 @@ The backend also accepts `MONGODB_URI` or `REACT_APP_MONGO_URI` as the MongoDB c
 ### Example `.env` (local development)
 
 ```
-REACT_APP_GEMINI_API_KEY=AIzaSy...
+REACT_APP_OPENAI_API_KEY=sk-proj-...
 REACT_APP_MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/
+# YOUTUBE_API_KEY=optional — if set, uses YouTube Data API; otherwise uses Invidious (no key)
 # REACT_APP_API_URL not needed locally — the dev server proxies /api to localhost:3001
 ```
 
@@ -113,7 +115,7 @@ Add these environment variables:
 
 | Variable | Value |
 |----------|-------|
-| `REACT_APP_GEMINI_API_KEY` | Your Gemini API key |
+| `REACT_APP_OPENAI_API_KEY` | Your OpenAI API key |
 | `REACT_APP_API_URL` | Backend URL from step 1, e.g. `https://chatapp-backend.onrender.com` |
 
 > **Important:** `REACT_APP_*` variables are baked into the JavaScript bundle at build time. If you change them in the dashboard, you must trigger a new deploy of the static site.
@@ -122,7 +124,7 @@ Add these environment variables:
 
 **Or use the Blueprint (both services at once)**
 
-New → **Blueprint** → connect your repo. Render reads `render.yaml` and creates both services. You'll be prompted to enter the four secrets (`MONGODB_URI`, `REACT_APP_GEMINI_API_KEY`, `REACT_APP_API_URL`) after creation.
+New → **Blueprint** → connect your repo. Render reads `render.yaml` and creates both services. You'll be prompted to enter the secrets (`MONGODB_URI`, `REACT_APP_OPENAI_API_KEY`, `REACT_APP_API_URL`) after creation.
 
 > **Note:** Because `REACT_APP_API_URL` must point to the backend's URL, which is only known after the backend is deployed, you may need to set `REACT_APP_API_URL` and re-deploy the static site after the first Blueprint run.
 
@@ -131,6 +133,19 @@ New → **Blueprint** → connect your repo. Render reads `render.yaml` and crea
 ### Free tier cold starts
 
 Render's free plan spins down services after 15 minutes of inactivity. The first request after a sleep takes ~30 seconds. Upgrade to the Starter plan ($7/mo) to avoid this.
+
+---
+
+## YouTube Channel Download & Veritasium Sample
+
+The assignment requires a sample of 10 videos from [Veritasium](https://www.youtube.com/@veritasium) in the `public/` folder. To create it:
+
+1. Start the app (`npm start`).
+2. Log in, then open the **YouTube Channel Download** tab.
+3. Enter `https://www.youtube.com/@veritasium`, set max videos to 10, and click **Download Channel Data**.
+4. The JSON file is saved to `public/` (e.g. `youtube_channel_UCsXVk37bltHxD1rDPwtNM8Q_*.json`) and can be downloaded.
+
+No API key is required — the app uses the Invidious API by default. Optionally add `YOUTUBE_API_KEY` for richer metadata (likes, comments, transcripts).
 
 ---
 
@@ -187,7 +202,7 @@ All packages are installed via `npm install`. Key dependencies:
 |---------|---------|
 | `react`, `react-dom` | UI framework |
 | `react-scripts` | Create React App build tooling |
-| `@google/generative-ai` | Gemini API client (chat, function calling, code execution, search grounding) |
+| `openai` | OpenAI API client (chat, function calling) |
 | `react-markdown` | Render markdown in AI responses |
 | `remark-gfm` | GitHub-flavored markdown (tables, strikethrough, etc.) |
 | `recharts` | Interactive charts (available for future visualizations) |
@@ -214,16 +229,14 @@ All packages are installed via `npm install`. Key dependencies:
 
 - **Create account / Login** – Username + password, hashed with bcrypt
 - **Session-based chat history** – Each conversation is a separate session; sidebar lists all chats with delete option
-- **Streaming Gemini responses** – Text streams in real time with animated "..." while thinking; Stop button to cancel
-- **Google Search grounding** – Answers include cited web sources for factual queries
-- **Python code execution** – Gemini writes and runs Python for plots, regression, histogram, scatter, and any analysis the JS tools can't handle
-- **CSV upload** – Drag-and-drop or click to attach a CSV; a slim version of the data (key columns as plain text) plus a full statistical summary are sent to Gemini automatically
+- **Streaming responses** – Text streams in real time with animated "..." while thinking; Stop button to cancel
+- **CSV upload** – Drag-and-drop or click to attach a CSV; a slim version of the data (key columns as plain text) plus a full statistical summary are sent to the model automatically
 - **Auto-computed engagement column** – When a CSV has `Favorite Count` and `View Count` columns, an `engagement` ratio (Favorite Count / View Count) is added automatically to every row
-- **Client-side data analysis tools** – Fast, zero-cost function-calling tools that run in the browser. Gemini calls these automatically for data questions; results are saved to MongoDB alongside the message:
+- **Client-side data analysis tools** – Fast, zero-cost function-calling tools that run in the browser. The model calls these automatically for data questions; results are saved to MongoDB alongside the message:
   - `compute_column_stats(column)` – mean, median, std, min, max, count for any numeric column
   - `get_value_counts(column, top_n)` – frequency count of each unique value in a categorical column
   - `get_top_tweets(sort_column, n, ascending)` – top or bottom N tweets sorted by any metric (including `engagement`), with tweet text and key metrics
-- **Tool routing logic** – The app automatically routes requests: client-side JS tools for simple stats, Python code execution for plots and complex models, Google Search for factual queries
+- **Tool routing logic** – The app automatically routes requests: client-side JS tools for simple stats and CSV analysis
 - **Markdown rendering** – AI responses render headers, lists, code blocks, tables, and links
 - **Image support** – Attach images via drag-and-drop, the 📎 button, or paste from clipboard (Ctrl+V)
 

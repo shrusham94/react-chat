@@ -1,4 +1,4 @@
-// ── Tool declarations (sent to Gemini so it knows what functions exist) ───────
+// ── Tool declarations (sent to the model so it knows what functions exist) ───────
 
 // IMPORTANT NOTE embedded in every description:
 // The user message always begins with "[CSV columns: col1, col2, ...]".
@@ -104,7 +104,7 @@ export const parseCsvToRows = (text) => {
 };
 
 // ── Column lookup (case-insensitive + whitespace-tolerant) ───────────────────
-// Gemini often passes column names in a slightly different case than the CSV header.
+// The model often passes column names in a slightly different case than the CSV header.
 // This finds the actual header key so the lookup always works.
 
 const resolveCol = (rows, name) => {
@@ -132,7 +132,7 @@ const fmt = (n) => +n.toFixed(4);
 
 // ── Build a slim CSV with only the key analytical columns ────────────────────
 // Extracts text, language, type, engagement metrics, and the computed engagement
-// ratio. Returns a plain CSV string Gemini can read directly in its context —
+// ratio. Returns a plain CSV string the model can read directly in its context —
 // no base64 or Python needed. ~6-10k tokens for a 250-row tweet dataset.
 
 const SLIM_PATTERNS = [
@@ -201,7 +201,7 @@ export const enrichWithEngagement = (rows, headers) => {
 };
 
 // ── Dataset summary (auto-computed when CSV is loaded) ───────────────────────
-// Returns a compact markdown string describing every column so Gemini always
+// Returns a compact markdown string describing every column so the model always
 // has exact column names, types, and value distributions in its context.
 
 export const computeDatasetSummary = (rows, headers) => {

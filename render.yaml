@@ -21,8 +21,8 @@ services:
     buildCommand: npm install && ./node_modules/.bin/react-scripts build
     staticPublishPath: ./build
     envVars:
-      - key: REACT_APP_GEMINI_API_KEY
-        sync: false   # set manually — baked into JS bundle at build time
+      - key: REACT_APP_OPENAI_API_KEY
+        sync: false   # set manually — get key at platform.openai.com/api-keys
       - key: REACT_APP_API_URL
         sync: false   # set to the backend URL, e.g. https://chatapp-backend.onrender.com
     routes:

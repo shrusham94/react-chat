@@ -1,0 +1,63 @@
+.metric-vs-time-chart {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+
+.metric-chart-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.metric-chart-actions button {
+  padding: 0.35rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.metric-chart-actions button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.metric-chart-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 2rem;
+}
+
+.metric-chart-lightbox-content {
+  background: #1a1a2e;
+  padding: 2rem;
+  border-radius: 12px;
+  min-width: 720px;
+  max-width: 95vw;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.metric-vs-time-chart-enlarged {
+  cursor: default;
+}
+
+.metric-chart-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

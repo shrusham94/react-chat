@@ -13,6 +13,7 @@
 
 # misc
 .DS_Store
+.yt-dlp
 .env
 .env.local
 .env.development.local
@@ -22,3 +23,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# YouTube channel data (downloaded, not source)
+public/youtube_channel_*.json
+public/youtube_channel_data.json
+public/youtube_data.json
